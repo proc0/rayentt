@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 #                         PROJECT
 #═══════════════════════════════════════════════════════════════
@@ -13,6 +13,7 @@ project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} DESCRIPTION ${PROJECT_NAME} L
 option(USE_RAYLIB_FETCH "Fetch and build from source" ON)
 # TODO: option(USE_RAYLIB_CUSTOM "Fetch and custom build" OFF)
 option(USE_RAYLIB_LOCAL "Use a local static build" OFF)
+option(USE_ENTT "Use EnTT ECS" ON)
 
 set(DIR_SOURCE "src" CACHE STRING "Project source files folder name")
 set(DIR_INCLUDE "include" CACHE STRING "Project header files folder name")
@@ -177,6 +178,12 @@ if(USE_RAYLIB_FETCH)
     Fetch(raylib "https://github.com/raysan5/raylib.git" head)
 
     list(APPEND LIBRARIES raylib)
+endif()
+
+if(USE_ENTT)
+    Fetch(EnTT "https://github.com/skypjack/entt" head)
+
+    list(APPEND LIBRARIES EnTT)
 endif()
 
 if(IS_WEB)

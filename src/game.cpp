@@ -10,6 +10,8 @@ void Game::update(){
         }
     }
 
+    world.update();
+
     // toggle pause menu
     if(IsKeyPressed(KEY_ESCAPE)){
         if(state == PAUSE) {
@@ -33,11 +35,11 @@ void Game::update(){
     }
 
     if(state == PLAY){
-        world.update();
         display.update(world);
     }
 
     if(state == BEGIN) {
+        display.update(world);
         // press any key screen (needed to load sound for web, as it needs user input to load audio)
         if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsMouseButtonDown(MOUSE_BUTTON_RIGHT) || GetKeyPressed() != 0){
             state = START;

@@ -25,6 +25,7 @@ static inline constexpr auto RESIZE_COOLDOWN = std::chrono::milliseconds(300);
 class Game {
     World world;
     Display display;
+    entt::registry registry_;
 
     std::chrono::steady_clock::time_point lastResize = std::chrono::steady_clock::now();
     enum State {
@@ -43,9 +44,10 @@ class Game {
     int screenWidth = SCREEN_WIDTH;
     int screenHeight = SCREEN_HEIGHT;
     
-    Game() {};
+    Game(): world(registry_) {};
     ~Game() = default;
 
+    entt::registry& registry() { return registry_; }
     const bool isRunning() const;
     void load();
     static void loop(void* self);

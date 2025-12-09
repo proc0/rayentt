@@ -7,13 +7,20 @@ int World::count() {
 void World::load(){
     std::string pathAssets = DIR_ASSETS;
     const char* pathSoundSplat = pathAssets.append("/").append(URI_SOUND_SPLAT).c_str();
-
     splat = LoadSound(pathSoundSplat);
     count_ = 0;
 }
 
 void World::render() const {
     DrawRectangleGradientH(0, 0, screenWidth, screenHeight, BLUE, ORANGE);
+}
+
+entt::entity World::spawnParticle(float x, float y) {
+    auto entity = registry.create();
+    registry.emplace<ParticleTag>(entity);
+    registry.emplace<Position>(entity, x, y);
+    registry.emplace<Velocity>(entity, .0f, .0f);
+    return entity;
 }
 
 void World::update(){
@@ -34,4 +41,14 @@ void World::update(){
 
 void World::unload(){
     UnloadSound(splat);
+}
+
+void MovementSystem(World& world) {
+    auto view = world.registry.view<Position, Velocity>();
+    for (auto [ent, pos, vel] : view.each()) {
+        // auto& pos = view.get<Position>(entity);
+        // auto& vel = view.get<Velocity>(entity);
+        pos.x += vel.x;
+        pos.y += vel.y;
+    }
 }

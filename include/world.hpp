@@ -1,11 +1,16 @@
 #pragma once
 
 #include <raylib.h>
+#include <entt/entt.hpp>
 #include <string>
 
 #include "config.h"
 
 #define URI_SOUND_SPLAT "splat1.wav"
+
+typedef struct Position { float x; float y; } Position;
+typedef struct Velocity { float x; float y; } Velocity;
+typedef struct ParticleTag {} ParticleTag;
 
 class World {
     int count_;
@@ -14,13 +19,15 @@ class World {
     public:
     int screenWidth;
     int screenHeight;
+    entt::registry& registry;
     
-    World() {};
+    World(entt::registry& registry_): registry(registry_) {};
     ~World() = default;
     
     int count();
     void load();
     void render() const;
+    entt::entity spawnParticle(float x, float y);
     void update();
     void unload();
 };
