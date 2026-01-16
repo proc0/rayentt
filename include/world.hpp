@@ -19,9 +19,10 @@ class World {
     public:
     int screenWidth;
     int screenHeight;
-    entt::registry& registry;
-    
-    World(entt::registry& registry_): registry(registry_) {};
+    entt::registry& _registry;
+    entt::registry& registry() { return _registry; }
+
+    World(entt::registry& registry_): _registry(registry_) {};
     ~World() = default;
     
     int count();
@@ -31,3 +32,5 @@ class World {
     void update();
     void unload();
 };
+
+void MovementSystem(World &world);
