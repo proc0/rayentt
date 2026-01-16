@@ -20,7 +20,8 @@ set(DIR_INCLUDE "include" CACHE STRING "Project header files folder name")
 set(DIR_ASSETS "assets" CACHE STRING "Project assets folder name")
 set(DIR_INSTALL "dist" CACHE STRING "Project install folder name")
 set(FILE_CONFIG "config" CACHE STRING "Optional config file name in include folder")
-
+# Generate compile_commands.json for LSP
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #                      LOCAL LIB PATHS
 #---------------------------------------------------------------
 message(STATUS "Host System: ${CMAKE_HOST_SYSTEM_NAME}")
@@ -230,8 +231,8 @@ if(IS_WEB)
         -sUSE_GLFW=3 
         -sWASM=1
         -sEXPORT_ES6=1
-        -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,HEAPF32
-        -sEXPORTED_FUNCTIONS=_main,requestFullscreen
+        -sEXPORTED_RUNTIME_METHODS=["ccall","cwrap","HEAPF32","requestFullscreen"]
+        -sEXPORTED_FUNCTIONS=_main
         --preload-file "../${DIR_ASSETS}"
         --shell-file "${PATH_WEB_SHELL}"
     )
